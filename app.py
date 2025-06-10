@@ -1,4 +1,5 @@
 import streamlit as st
+from urllib.parse import quote
 import requests
 import feedparser
 
@@ -27,15 +28,20 @@ if source == "Video (URL 직접 입력)":
 
 # 뉴스 API 함수
 def fetch_news(query, api_key):
-    url = f"https://newsapi.org/v2/everything?q={query}&sortBy=publishedAt&language=en&pageSize=10&apiKey={api_key}"
+    query_encoded = quote(query)
+    url = f"https://newsapi.org/v2/everything?q={query_encoded}&sortBy=publishedAt&language=en&pageSize=10&apiKey={api_key}"
     response = requests.get(url)
+
     if response.status_code != 200:
         st.error(f"뉴스 API 오류: {response.status_code}")
+        st.error(f"응답 내용: {response.text}")
         return []
+
     data = response.json()
     if data.get("status") != "ok":
         st.error(f"뉴스 API 오류 메시지: {data.get('message')}")
         return []
+
     return data.get("articles", [])
 
 # arXiv API 함수
