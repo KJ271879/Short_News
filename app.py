@@ -16,6 +16,8 @@ NEWS_API_KEY = "secret_key"
 def fetch_news(query, api_key):
     url = f"https://newsapi.org/v2/everything?q={query}&sortBy=publishedAt&language=en&pageSize=5&apiKey={api_key}"
     response = requests.get(url)
+    print("Status code:", response.status_code)
+    print("Response JSON:", response.json())
     return response.json().get("articles", [])
 
 # arXiv API 함수
