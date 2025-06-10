@@ -128,23 +128,31 @@ if st.session_state.data:
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        # 'key' 매개변수를 추가하여 각 버튼에 고유한 ID를 부여합니다.
-        if st.button("⬅️ 이전 콘텐츠", key="prev_button_active") and idx > 0:
-            st.session_state.index -= 1
-            st.experimental_rerun()
-        # 이 버튼은 위에 있는 조건이 거짓일 때 (즉, idx == 0 일 때)만 나타납니다.
-        elif st.button("⬅️ 이전 콘텐츠", key="prev_button_inactive"):
-            st.info("첫 번째 콘텐츠입니다.")
+        # '이전' 버튼: 첫 번째 콘텐츠가 아닐 때만 활성화 (disabled=False)
+        # 첫 번째 콘텐츠일 때는 비활성화 (disabled=True)
+        if st.button("⬅️ 이전 콘텐츠", disabled=(idx == 0), key="prev_main_button"):
+            if idx > 0: # 실제 동작은 idx가 0보다 클 때만 수행
+                st.session_state.index -= 1
+                st.experimental_rerun()
+            # else: # idx == 0 일 때는 버튼이 disabled라서 이 else 블록에 도달하지 않음
+            #     st.info("첫 번째 콘텐츠입니다.") # 이 메시지는 버튼이 disabled일 때 표시되지 않음
+
     with col2:
-        # 'key' 매개변수를 추가하여 각 버튼에 고유한 ID를 부여합니다.
-        if st.button("다음 콘텐츠 ➡️", key="next_button_active") and idx < total_items - 1:
-            st.session_state.index += 1
-            st.experimental_rerun()
-        # 이 버튼은 위에 있는 조건이 거짓일 때 (즉, 마지막 항목일 때)만 나타납니다.
-        elif st.button("다음 콘텐츠 ➡️", key="next_button_inactive"):
-            st.info("마지막 콘텐츠입니다.")
+        # '다음' 버튼: 마지막 콘텐츠가 아닐 때만 활성화
+        if st.button("다음 콘텐츠 ➡️", disabled=(idx == total_items - 1), key="next_main_button"):
+            if idx < total_items - 1: # 실제 동작은 idx가 마지막이 아닐 때만 수행
+                st.session_state.index += 1
+                st.experimental_rerun()
+            # else: # 마지막 콘텐츠일 때는 버튼이 disabled라서 이 else 블록에 도달하지 않음
+            #     st.info("마지막 콘텐츠입니다.") # 이 메시지는 버튼이 disabled일 때 표시되지 않음
 
     st.markdown(f"<p style='text-align: center;'>현재 {idx + 1} / {total_items} 페이지</p>", unsafe_allow_html=True)
+
+    # 추가 안내 메시지 (버튼이 비활성화되었을 때)
+    if idx == 0:
+        st.info("이전 콘텐츠가 없습니다. 첫 번째 콘텐츠입니다.")
+    if idx == total_items - 1:
+        st.info("다음 콘텐츠가 없습니다. 마지막 콘텐츠입니다.")
 
 else:
     st.info("아직 검색 결과가 없습니다. 위에 검색 조건을 입력하고 '🚀 검색 시작하기' 버튼을 눌러주세요!")
