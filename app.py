@@ -128,16 +128,20 @@ if st.session_state.data:
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("⬅️ 이전 콘텐츠") and idx > 0:
+        # 'key' 매개변수를 추가하여 각 버튼에 고유한 ID를 부여합니다.
+        if st.button("⬅️ 이전 콘텐츠", key="prev_button_active") and idx > 0:
             st.session_state.index -= 1
             st.experimental_rerun()
-        elif st.button("⬅️ 이전 콘텐츠"): # If button is clicked but no previous item
+        # 이 버튼은 위에 있는 조건이 거짓일 때 (즉, idx == 0 일 때)만 나타납니다.
+        elif st.button("⬅️ 이전 콘텐츠", key="prev_button_inactive"):
             st.info("첫 번째 콘텐츠입니다.")
     with col2:
-        if st.button("다음 콘텐츠 ➡️") and idx < total_items - 1:
+        # 'key' 매개변수를 추가하여 각 버튼에 고유한 ID를 부여합니다.
+        if st.button("다음 콘텐츠 ➡️", key="next_button_active") and idx < total_items - 1:
             st.session_state.index += 1
             st.experimental_rerun()
-        elif st.button("다음 콘텐츠 ➡️"): # If button is clicked but no next item
+        # 이 버튼은 위에 있는 조건이 거짓일 때 (즉, 마지막 항목일 때)만 나타납니다.
+        elif st.button("다음 콘텐츠 ➡️", key="next_button_inactive"):
             st.info("마지막 콘텐츠입니다.")
 
     st.markdown(f"<p style='text-align: center;'>현재 {idx + 1} / {total_items} 페이지</p>", unsafe_allow_html=True)
