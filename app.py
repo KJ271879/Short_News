@@ -7,7 +7,7 @@ st.set_page_config(page_title="📲 숏폼 뉴스 & 논문 & 영상 뷰어", lay
 st.title("📲 숏폼 뉴스 & 논문 & 영상 뷰어")
 
 # API 키 설정 (본인의 NewsAPI 키를 입력하세요)
-NEWS_API_KEY = "SECRET_API_KEY"
+NEWS_API_KEY = st.secrets['SECRET_API_KEY']
 
 # 세션 상태 초기화
 if "index" not in st.session_state:
