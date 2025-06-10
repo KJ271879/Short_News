@@ -133,7 +133,7 @@ if st.session_state.data:
         if st.button("⬅️ 이전 콘텐츠", disabled=(idx == 0), key="prev_main_button"):
             if idx > 0: # 실제 동작은 idx가 0보다 클 때만 수행
                 st.session_state.index -= 1
-                st.experimental_rerun()
+                st.rerun() # <-- 여기를 수정합니다!
             # else: # idx == 0 일 때는 버튼이 disabled라서 이 else 블록에 도달하지 않음
             #     st.info("첫 번째 콘텐츠입니다.") # 이 메시지는 버튼이 disabled일 때 표시되지 않음
 
@@ -142,12 +142,17 @@ if st.session_state.data:
         if st.button("다음 콘텐츠 ➡️", disabled=(idx == total_items - 1), key="next_main_button"):
             if idx < total_items - 1: # 실제 동작은 idx가 마지막이 아닐 때만 수행
                 st.session_state.index += 1
-                st.experimental_rerun()
+                st.rerun() # <-- 여기를 수정합니다!
             # else: # 마지막 콘텐츠일 때는 버튼이 disabled라서 이 else 블록에 도달하지 않음
             #     st.info("마지막 콘텐츠입니다.") # 이 메시지는 버튼이 disabled일 때 표시되지 않음
 
     st.markdown(f"<p style='text-align: center;'>현재 {idx + 1} / {total_items} 페이지</p>", unsafe_allow_html=True)
 
+    # 추가 안내 메시지 (버튼이 비활성화되었을 때)
+    if idx == 0:
+        st.info("이전 콘텐츠가 없습니다. 첫 번째 콘텐츠입니다.")
+    if idx == total_items - 1:
+        st.info("다음 콘텐츠가 없습니다. 마지막 콘텐츠입니다.")
     # 추가 안내 메시지 (버튼이 비활성화되었을 때)
     if idx == 0:
         st.info("이전 콘텐츠가 없습니다. 첫 번째 콘텐츠입니다.")
