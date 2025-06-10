@@ -100,7 +100,7 @@ if st.session_state.data:
             item = st.session_state.data[idx]
             st.markdown(f"### 📰 {item.get('title', '제목 없음')}")
             if item.get("urlToImage"):
-                st.image(item["urlToImage"], use_column_width=True, caption="기사 이미지")
+                st.image(item["urlToImage"], use_container_width=True, caption="기사 이미지")
             st.write(item.get("description", "설명 없음"))
             st.markdown(f"[➡️ 기사 원문 보기]({item.get('url', '#')})")
             st.caption(f"출처: {item.get('source', {}).get('name', '알 수 없음')} | 발행일: {item.get('publishedAt', '')[:10]}")
